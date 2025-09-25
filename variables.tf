@@ -33,3 +33,7 @@ variable "security_rules" {
     }
   ]
 }
+
+variable "prefix" {
+  default = "tfvmex"
+}

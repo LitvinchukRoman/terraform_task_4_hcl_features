@@ -1,10 +1,10 @@
-output "names" {
-  value = azurerm_virtual_machine.main[*].name
+output "vm_names_upper" {
+  description = "All VM names in uppercase"
+  value       = [for vm in azurerm_virtual_machine.main : upper(vm.name)]
 }
 
 output "vm_tags_joined" {
-  description = "All VM tag values joined into a single string"
-  value       = join(", ", values(azurerm_virtual_machine.main[0].tags))
+  value = [for vm in azurerm_virtual_machine.main : join(", ", values(vm.tags))]
 }
 
 output "vm_ids" {

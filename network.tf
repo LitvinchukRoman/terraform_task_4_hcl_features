@@ -19,15 +19,15 @@ resource "azurerm_subnet" "internal" {
 }
 
 resource "azurerm_network_interface" "main" {
-  for_each = azurerm_subnet.internal
+  for_each = { for name in local.network_interface_names : name => name }
 
-  name                = "${var.prefix}-nic-${each.key}"
+  name                = each.key
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
 
   ip_configuration {
     name                          = "testconfiguration1"
-    subnet_id                     = each.value.id
+    subnet_id                     = local.nic_subnet_map[each.key]
     private_ip_address_allocation = "Dynamic"
   }
 }
